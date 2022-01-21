@@ -10,7 +10,7 @@ public class TextGame : MonoBehaviour
 
     void AudioLoader()
     {
-        GameObject gameObject = GameObject.Find("Canvas");
+        GameObject gameObject = GameObject.Find("Text");
         AudioSource audio = gameObject.GetComponent<AudioSource>();
         audio.Play();
     }
