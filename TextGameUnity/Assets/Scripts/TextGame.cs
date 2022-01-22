@@ -6,7 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class TextGame : MonoBehaviour
 {
-    TextGame textUI;
+    enum Levels
+    {
+        MainMenu, Morgue, Street, Bar,
+    }
+
+    Levels levels;
 
     void AudioLoader()
     {
@@ -15,16 +20,24 @@ public class TextGame : MonoBehaviour
         audio.Play();
     }
 
-    int SceneChecker()
+    void SceneChecker()
     {
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name == "MainMenu")
         {
-            return 0;
+            levels = Levels.MainMenu;
         }
-        else
+        else if (scene.name == "Morgue")
         {
-            return 1;
+            levels = Levels.Morgue;
+        }
+        else if (scene.name == "Street")
+        {
+            levels = Levels.Street;
+        }
+        else if (scene.name == "Bar")
+        {
+            levels = Levels.Bar;
         }
     }
 
@@ -33,15 +46,29 @@ public class TextGame : MonoBehaviour
         Text textUI;
         textUI = GetComponent<Text>();
 
-        if (SceneChecker() == 0)
+        if (levels == Levels.MainMenu)
         {
             textUI.text =    "Znajdujesz się w ciemnym domu \n" +
                              "Nie ma w nim żadnego światła \n" +
                              "A ty szukasz wyjścia z tej ciemności, dlatego dotknij ENTER \n";
         }
-        else
+        else if (levels == Levels.Morgue)
         {
-            textUI.text = "Opis lokalizacji";
+            textUI.text = "Jesteś w kostnicy.\n" +
+                          "A właściwie na zewnątrz \n" +
+                          "Możesz wejść do miasteczka, dlatego dotknij S \n";
+        }
+        else if (levels == Levels.Street)
+        {
+            textUI.text = "Jesteś w miasteczku złożonym z ulic i domków." +
+                          "Przytłacza cię nadmiar budynków i chcesz się napić \n" +
+                          "Znajdujesz więc bar, dlatego dotknij W \n";
+        }
+        else if (levels == Levels.Bar)
+        {
+            textUI.text = "Przyszedłeś się napić, a tu nie ma barmana." +
+                          "Nie możesz nic kupić, ale nie chcesz nic kraść \n" +
+                          "Możesz wrócić do miasteczka, dlatego dotknij S \n";
         }
     }
 
@@ -55,6 +82,19 @@ public class TextGame : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
-            SceneManager.LoadScene("Levels");
+        {
+            SceneManager.LoadScene("Morgue");
+        //    levels = Levels.Morgue;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            SceneManager.LoadScene("Bar");
+        //    levels = Levels.Bar;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SceneManager.LoadScene("Street");
+        //    levels = Levels.Street;
+        }
     }
 }
